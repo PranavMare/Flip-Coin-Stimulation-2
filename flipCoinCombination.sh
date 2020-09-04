@@ -7,6 +7,7 @@ else
     echo "Tail"
 fi
 
+
 num=20
 declare -A Singlet
 H=0
@@ -152,3 +153,38 @@ do
         echo "Triplet HTH percentage : `echo "scale=1; ${Triplet[$index]}*100/20" | bc ` %" 
     fi
 done
+
+arr[0]=${Singlet[H]}
+arr[1]=${Singlet[T]}
+arr[2]=${Doublet[HH]}
+arr[3]=${Doublet[HT]}
+arr[4]=${Doublet[TH]}
+arr[5]=${Doublet[TT]}
+arr[6]=${Triplet[HHH]}
+arr[7]=${Triplet[HHT]}
+arr[8]=${Triplet[HTH]}
+arr[9]=${Triplet[HTT]}
+arr[10]=${Triplet[TTT]}
+arr[11]=${Triplet[THH]}
+arr[12]=${Triplet[THT]}
+arr[13]=${Triplet[TTH]}
+echo ${arr[@]}
+
+len=${#arr[@]}
+
+for (( i=0 ; i<len ;i++ ))
+do
+    for (( j=0 ; j<len-i-1 ; j++ ))
+    do
+        if [[  ${arr[j]} -gt ${arr[$((j+1))]} ]]
+        then
+                temp=${arr[j]}
+                arr[j]=${arr[$((j+1))]}
+                arr[$((j+1))]=$temp
+        fi
+    done
+done
+
+echo ${arr[@]}
+
+echo ${arr[13]} " is the WINNER !!!"
